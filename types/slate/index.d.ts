@@ -1,4 +1,4 @@
-// Type definitions for slate 0.44
+// Type definitions for slate 0.47
 // Project: https://github.com/ianstormtaylor/slate
 // Definitions by: Andy Kent <https://github.com/andykent>
 //                 Jamie Talbot <https://github.com/majelbstoat>
@@ -11,6 +11,7 @@
 //                 Jack Allen <https://github.com/jackall3n>
 //                 Benjamin Evenson <https://github.com/benjiro>
 //                 Han Jeon <https://github.com/hanstar17>
+//                 Anselm Eickhoff <https://github.com/aeplay>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 // TypeScript Version: 2.8
 import * as Immutable from "immutable";
@@ -256,7 +257,8 @@ export interface TextProperties {
 
 export interface TextJSON {
     key?: string;
-    leaves: LeafJSON[];
+    text?: string;
+    marks?: MarkJSON[];
     object: "text";
 }
 
@@ -332,12 +334,6 @@ export interface LeafProperties {
     text?: string;
 }
 
-export interface LeafJSON {
-    marks?: MarkJSON[];
-    text?: string;
-    object: "leaf";
-}
-
 export class Leaf extends Immutable.Record({}) {
     object: "leaf";
     marks: Immutable.Set<Mark> | null;
@@ -356,8 +352,8 @@ export class Leaf extends Immutable.Record({}) {
             | Immutable.List<Leaf>
             | Immutable.List<LeafProperties>
     ): Immutable.List<Leaf>;
-    static fromJSON(properties: LeafJSON): Leaf;
-    static fromJS(properties: LeafJSON): Leaf;
+    static fromJSON(properties: TextJSON): Leaf;
+    static fromJS(properties: TextJSON): Leaf;
     static isLeaf(maybeLeaf: any): maybeLeaf is Leaf;
     static isLeafList(
         maybeLeafList: any
@@ -626,20 +622,23 @@ export class Range extends BaseRange {
 export interface DecorationProperties {
     anchor?: Point;
     focus?: Point;
-    mark?: Mark | null;
+    type?: string | null;
+    data?: Immutable.Map<string, any> | { [key: string]: any };
 }
 
 export interface DecorationJSON {
     anchor?: PointJSON;
     focus?: PointJSON;
-    mark?: MarkJSON | null;
+    type?: string | null;
+    data?: { [key: string]: any };
 }
 
 export class Decoration extends BaseRange {
     object: "decoration";
     anchor: Point;
     focus: Point;
-    mark: Mark | null;
+    type: string | null;
+    data: Immutable.Map<string, any>;
     static create(properties: DecorationProperties | Range): Decoration;
     static createList(
         elements?:

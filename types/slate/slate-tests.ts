@@ -28,18 +28,13 @@ const node: BlockJSON = {
 	nodes: [
 		{
 			object: "text",
-			key: "a",
-			leaves: [
-				{
-                    object: "leaf",
-					text: "example",
-					marks: [{
-                        data: { testData: "data"},
-                        type: "mark",
-                        object: "mark"
-                    }]
-				}
-			]
+            key: "a",
+            text: "example",
+            marks: [{
+                data: { testData: "data"},
+                type: "mark",
+                object: "mark"
+            }]
 		}
 	]
 };
@@ -121,7 +116,7 @@ const point = Point.create({ key: "a", offset: 0 });
 const range = Range.create({ anchor: point, focus: point });
 const inline = Inline.create("text");
 const mark = Mark.create("bold");
-const decorations = Decoration.createList([{ anchor: Point.create({ key: "a", offset: 0 }), focus: Point.create({ key: "a", offset: 0 }), mark }]);
+const decorations = Decoration.createList([{ anchor: Point.create({ key: "a", offset: 0 }), focus: Point.create({ key: "a", offset: 0 }), type: "bold" }]);
 
 editor.command(pluginCommandName, 1);
 editor.command(pluginCommandFunc, 1);
